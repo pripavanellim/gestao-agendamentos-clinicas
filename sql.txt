@@ -1,0 +1,39 @@
+CREATE TABLE Paciente (
+    id_paciente INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    contato VARCHAR(50),
+    plano_saude VARCHAR(50)
+);
+
+CREATE TABLE Especialidade (
+    id_especialidade INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Profissional (
+    id_profissional INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    id_especialidade INT,
+    FOREIGN KEY (id_especialidade) REFERENCES Especialidade(id_especialidade)
+);
+
+CREATE TABLE Consulta (
+    id_consulta INT PRIMARY KEY AUTO_INCREMENT,
+    id_paciente INT,
+    id_profissional INT,
+    data DATE NOT NULL,
+    horario TIME NOT NULL,
+    status VARCHAR(20),
+    FOREIGN KEY (id_paciente) REFERENCES Paciente(id_paciente),
+    FOREIGN KEY (id_profissional) REFERENCES Profissional(id_profissional)
+);
+
+-- Inserção de dados exemplo:
+INSERT INTO Especialidade (nome) VALUES ('Cardiologia'), ('Dermatologia');
+
+INSERT INTO Profissional (nome, id_especialidade) VALUES ('Dr. João Silva', 1), ('Dra. Ana Costa', 2);
+
+INSERT INTO Paciente (nome, cpf, contato, plano_saude) VALUES ('Maria Souza', '12345678901', 'maria@email.com', 'Plano A');
+
+INSERT INTO Consulta (id_paciente, id_profissional, data, horario, status) VALUES (1, 1, '2025-07-01', '09:00:00', 'Agendada');
